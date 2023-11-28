@@ -9,3 +9,4 @@ engine = create_engine("sqlite:///sample.db", echo=True)
 
 Base.metadata.create_all(bind=engine)
 print(engine)
+
