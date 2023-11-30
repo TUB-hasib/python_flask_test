@@ -3,8 +3,7 @@ from models import Base
 
 
 # engine = create_engine("sqlite:///:memory", echo=True)
-engine = create_engine("sqlite:///sample.db", echo=True)
-
+engine = create_engine("postgresql://postgres@localhost:5432", echo=True)
 
 
 Base.metadata.create_all(bind=engine)
