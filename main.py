@@ -8,4 +8,6 @@ engine = create_engine("postgresql://postgres@localhost:5432", echo=True)
 
 Base.metadata.create_all(bind=engine)
 print(engine)
+# Base.metadata.drop_all(bind=engine)
 
+# print(engine)

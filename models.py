@@ -1,6 +1,6 @@
 from typing import List
 from typing import Optional
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, PrimaryKeyConstraint, UniqueConstraint
 from sqlalchemy import String, Integer, Boolean
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped
@@ -14,7 +14,7 @@ class Base(DeclarativeBase):
 
 class Shopper(Base):
     __tablename__ = 'shoppers'
-    id:Mapped[int] = mapped_column(Integer, primary_key=True)
+    id:Mapped[str] = mapped_column(String, primary_key=True)
     name:Mapped[str] = mapped_column(String(20), nullable=False)
     age:Mapped[int] = mapped_column(Integer)
     is_student:Mapped[bool] = mapped_column(Boolean)
@@ -22,18 +22,31 @@ class Shopper(Base):
 
 class Buy(Base):
     __tablename__ = 'buys'
-    buy_id:Mapped[int] = mapped_column(primary_key=True, nullable=False)
+    buy_id:Mapped[int] = mapped_column(Integer , primary_key=True, nullable=False)
     shppoer_id:Mapped[int] = mapped_column(nullable=False)
     item_id:Mapped[int] = mapped_column(nullable=False)
     
 
 class Item(Base):
     __tablename__ = 'items'
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     price: Mapped[int] = mapped_column(Integer,nullable=False)
     type: Mapped[str] = mapped_column(String(10))
     company: Mapped[str] = mapped_column(String(10), nullable=False)
 
+
+class Test(Base):
+    __tablename__ = 'testconstraint'
+    id: Mapped[int] = mapped_column(Integer, autoincrement=True)
+    type: Mapped[str] = mapped_column(String(10))
+    company: Mapped[str] = mapped_column(String(10), nullable=False)
+    
+    __table_args__ = (
+        # ForeignKeyConstraint(["id"], ["remote_table.id"]),
+        UniqueConstraint("type","company", name='uniquetypecompany'),
+        PrimaryKeyConstraint("id", name="testconstraint_pk"),
+        UniqueConstraint("type", name='uniquetype'),
+    )
 
 
 
