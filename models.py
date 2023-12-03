@@ -6,6 +6,7 @@ from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship
+import pydantic
 
 class Base(DeclarativeBase):
     pass
@@ -18,6 +19,15 @@ class Shopper(Base):
     name:Mapped[str] = mapped_column(String(20), nullable=False)
     age:Mapped[int] = mapped_column(Integer)
     is_student:Mapped[bool] = mapped_column(Boolean)
+
+    @pydantic.validator("is_student")
+    @classmethod
+    def is_student_check(cls, value:bool):
+        print("Hellllllllllllllllllllllllllllllllllllo")
+        if value:
+            raise ValueError 
+        raise ValueError
+        
 
 
 class Buy(Base):
@@ -38,8 +48,11 @@ class Item(Base):
 class Test(Base):
     __tablename__ = 'testconstraint'
     id: Mapped[int] = mapped_column(Integer, autoincrement=True)
-    type: Mapped[str] = mapped_column(String(10))
+    type: Mapped[str] = mapped_column(String(10), nullable=True)
     company: Mapped[str] = mapped_column(String(10), nullable=False)
+    name:Mapped[Optional[str]] = mapped_column(String(20), nullable=True)
+    age:Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    is_student:Mapped[Optional[bool]] = mapped_column(Boolean, nullable=True)
     
     __table_args__ = (
         # ForeignKeyConstraint(["id"], ["remote_table.id"]),

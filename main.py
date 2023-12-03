@@ -5,6 +5,7 @@ from models import Base
 # engine = create_engine("sqlite:///:memory", echo=True)
 engine = create_engine("postgresql://postgres@localhost:5432", echo=True)
 
+Base.metadata.drop_all(bind=engine)
 
 Base.metadata.create_all(bind=engine)
 print(engine)
